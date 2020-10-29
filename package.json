@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start -p $PORT"
   },
+  "cacheDirectories": ["node_modules", ".next/cache"],
   "dependencies": {
     "date-fns": "^2.11.1",
     "gray-matter": "^4.0.2",

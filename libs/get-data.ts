@@ -5,7 +5,7 @@ import remoteFetchJSON from './remote-fetch-json'
 const CACHE_EXPIRE_TIME_SECONDS = process.env.REDIS_CACHE_EXPIRE_TIME_SECONDS || 60 * 2000
 
 const redisConnectionOptions = process.env.NODE_ENV === 'production'
-  ? process.env.REDIS_URL
+  ? { url: process.env.REDIS_URL }
   : { port: 6379 }
 
 const redisClient = redis.createClient(redisConnectionOptions)

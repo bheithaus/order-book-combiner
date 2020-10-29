@@ -53,7 +53,7 @@ interface Order {
   [key: string]: number | string | undefined;
 }
 
-interface OrderBookInterface {
+interface CombinedOrderBook {
   asks: [];
   bids: [];
   [key: string]: [];
@@ -108,14 +108,17 @@ class DataManager {
   }
 
   private combineOrders(order1: Order, order2: Order) {
-    const combined = Object.assign({}, order1, order2)
+    const combined: Order = Object.assign({}, order1, order2)
+    const bittrex: number = (combined.bittrex || 0)
+    const poloniex: number = (combined.poloniex || 0)
 
-    // TODO - need to better understand - Type error: Object is possibly 'undefined'.
-    combined.totalLiquidity = (combined.bittrex || 0) + (combined.poloniex || 0)
+    // TODO - need to better understand - Type error: Object is possibly 'undefined'
+    // for now casting as local const fixes it!
+    combined.totalLiquidity = bittrex + poloniex
 
-    if (combined.bittrex > combined.poloniex) {
+    if (bittrex > poloniex) {
       combined.volume = 'bittrex'
-    } else if (combined.bittrex === combined.poloniex) {
+    } else if (bittrex === poloniex) {
       combined.volume = 'tie'
     } else {
       combined.volume = 'poloniex'
@@ -163,6 +166,7 @@ class DataManager {
 
         if (combinedBook[key][order.rate]) {
           console.log('merge orders at same rate', order.rate)
+
           combinedBook[key][order.rate] = this.combineOrders(combinedBook[key][order.rate], order)
         } else {
           order.totalLiquidity = order.poloniex

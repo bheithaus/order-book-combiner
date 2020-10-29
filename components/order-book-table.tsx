@@ -86,12 +86,15 @@ export default function OrderBookTable(props: any) {
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map((cell, index) => {
-                // todo clean this up!
-                const bgColor = (row.cells[4].value === 'bittrex' && index === 2)
-                  ? 'lightblue'
-                  : (row.cells[4].value === 'poloniex' && index === 3)
-                    ? 'lightblue'
-                    : 'papayawhip'
+                let bgColor: string
+
+                if (index === 2 && row.cells[4].value === 'bittrex') {
+                  bgColor = 'lightblue'
+                } else if (index === 3 && row.cells[4].value === 'poloniex') {
+                  bgColor = 'lightblue'
+                } else {
+                  bgColor = 'papayawhip'
+                }
 
                 return (
                   <td

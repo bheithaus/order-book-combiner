@@ -28,15 +28,7 @@ const MarketNames: marketNames = {
   }
 }
 
-const API_Names = {
-  bittrex: 'bittrex',
-  poloniex: 'poloniex',
-  totalLiquidity: 'totalLiquidity',
-  volume: 'volume'
-}
-
 export {
   AvailableMarkets,
-  MarketNames,
-  API_Names
+  MarketNames
 }

@@ -6,8 +6,6 @@ import {
   useFilters
  } from 'react-table'
 
-import { API_Names } from '../libs/available-markets'
-
 export default function OrderBookTable(props: any) {
   const data = React.useMemo(() => props.data, props.data)
 
@@ -19,19 +17,19 @@ export default function OrderBookTable(props: any) {
       },
       {
         Header: 'Total Liquidity',
-        accessor: API_Names.totalLiquidity
+        accessor: 'totalLiquidity'
       },
       {
         Header: 'Bittrex',
-        accessor: API_Names.bittrex
+        accessor: 'bittrex'
       },
       {
         Header: 'Poloniex',
-        accessor: API_Names.poloniex
+        accessor: 'poloniex'
       },
       {
         Header: 'Volume',
-        accessor: API_Names.volume
+        accessor: 'volume'
       }
     ],
     []
@@ -45,7 +43,7 @@ export default function OrderBookTable(props: any) {
     prepareRow,
   } = useTable({
       columns,
-      data,
+      data
     },
     useSortBy,
    )
@@ -55,28 +53,33 @@ export default function OrderBookTable(props: any) {
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                style={{
-                  borderBottom: 'solid 3px red',
-                  background: 'aliceblue',
-                  color: 'black',
-                  fontWeight: 'bold',
-                }}
-              >
-                {column.render('Header')}
+            {headerGroup.headers.map((column, index) => {
+              // hide volumn column
+              if (index === 4) return null
 
-                {/* Add a sort direction indicator */}
-                <span>
-                  {column.isSorted
-                    ? column.isSortedDesc
-                      ? ' 🔽'
-                      : ' 🔼'
-                    : ''}
-                </span>
-              </th>
-            ))}
+              return (
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  style={{
+                    borderBottom: 'solid 3px red',
+                    background: 'aliceblue',
+                    color: 'black',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {column.render('Header')}
+
+                  {/* Add a sort direction indicator */}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
+                </th>
+              )
+            })}
           </tr>
         ))}
       </thead>
@@ -96,11 +99,13 @@ export default function OrderBookTable(props: any) {
                   bgColor = 'papayawhip'
                 }
 
+                if (index === 4) return null
+
                 return (
                   <td
                     {...cell.getCellProps()}
                     style={{
-                      padding: '10px',
+                      padding: '1px',
                       border: 'solid 1px gray',
                       background: bgColor,
                     }}

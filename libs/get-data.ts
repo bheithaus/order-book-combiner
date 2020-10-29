@@ -2,14 +2,11 @@ import redis from 'redis'
 import remoteFetchJSON from './remote-fetch-json'
 
 // set extremely high for development purposes
-const CACHE_EXPIRE_TIME_SECONDS = process.env.CACHE_EXPIRE_TIME_SECONDS || 60 * 2000
-
-// TODO - make this idiomatic Typescript
-const PORT_REDIS = 6379
+const CACHE_EXPIRE_TIME_SECONDS = process.env.REDIS_CACHE_EXPIRE_TIME_SECONDS || 60 * 2000
 
 const redisConnectionOptions = process.env.NODE_ENV === 'production'
   ? process.env.REDIS_URL
-  : { port: PORT_REDIS }
+  : { port: 6379 }
 
 const redisClient = redis.createClient(redisConnectionOptions)
 

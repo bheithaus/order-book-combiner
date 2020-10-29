@@ -1,7 +1,7 @@
 import redis from 'redis'
 import fetch from 'isomorphic-unfetch'
 import uriTemplates from 'uri-templates'
-import { MarketNames, API_Names } from './available-markets'
+import { MarketNames } from './available-markets'
 import getData from './get-data'
 
 const bittrex_URL_TEMPLATE = uriTemplates('https://api.bittrex.com/v3/markets/{market}/orderbook?depth=500')
@@ -19,9 +19,8 @@ const poloniexKeys = {
   asks: 'asks'
 }
 
-//
-//
-//
+// requirements
+
 // Total liquidity (amount available) at each price point.
 // Other considerations:
 // ● Please complete the challenge in Nodejs (TypeScript preferred)
@@ -37,8 +36,8 @@ const poloniexKeys = {
  *     {
  *       rate: float,
  *       totalLiquidity: float,
- *       bittrex: float,     -- quantity @ rate
- *       poloniex: float     -- quantity @ rate
+ *       bittrex: float,     -- quantity / liquidity
+ *       poloniex: float     -- quantity / liquidity
  *     }
  *   ]
  *   bids: []
@@ -50,6 +49,7 @@ interface Order {
   totalLiquidity?: number;
   bittrex?: number;
   poloniex?: number;
+  volume?: 'string';
   [key: string]: number | undefined;
 }
 
@@ -113,6 +113,14 @@ class DataManager {
     // TODO - need to better understand - Type error: Object is possibly 'undefined'.
     combined.totalLiquidity = (combined.bittrex || 0) + (combined.poloniex || 0)
 
+    if (combined.bittrex > combined.poloniex) {
+      combined.volume = 'bittrex'
+    } else if (combined.bittrex === combined.poloniex) {
+      combined.volume = 'tie'
+    } else {
+      combined.volume = 'poloniex'
+    }
+
     return combined
   }
 
@@ -132,6 +140,7 @@ class DataManager {
         const order : Order = {
           rate: parseFloat(bittrexOrder.rate),
           bittrex: quantity,
+          volume: 'bittrex',
           totalLiquidity: quantity
         }
 
@@ -149,7 +158,7 @@ class DataManager {
       books.poloniex[poloniexKeys[key]].forEach((poloniexOrder) => {
         const order : Order = {
           rate: parseFloat(poloniexOrder[0]),
-          poloniex: poloniexOrder[1] // comes from API already a float
+          poloniex: poloniexOrder[1] // already a float from API
         }
 
         if (combinedBook[key][order.rate]) {
@@ -157,6 +166,8 @@ class DataManager {
           combinedBook[key][order.rate] = this.combineOrders(combinedBook[key][order.rate], order)
         } else {
           order.totalLiquidity = order.poloniex
+          order.volume = 'poloniex'
+
           combinedBook[key][order.rate] = order
         }
       })

@@ -31,7 +31,8 @@ const MarketNames: marketNames = {
 const API_Names = {
   bittrex: 'bittrex',
   poloniex: 'poloniex',
-  totalLiquidity: 'totalLiquidity'
+  totalLiquidity: 'totalLiquidity',
+  volume: 'volume'
 }
 
 export {

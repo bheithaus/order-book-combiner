@@ -22,12 +22,16 @@ export default function OrderBookTable(props: any) {
         accessor: API_Names.totalLiquidity
       },
       {
-        Header: 'Bittrex Quantity',
+        Header: 'Bittrex',
         accessor: API_Names.bittrex
       },
       {
-        Header: 'Poloniex Quantity',
+        Header: 'Poloniex',
         accessor: API_Names.poloniex
+      },
+      {
+        Header: 'Volume',
+        accessor: API_Names.volume
       }
     ],
     []
@@ -81,14 +85,21 @@ export default function OrderBookTable(props: any) {
           prepareRow(row)
           return (
             <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
+              {row.cells.map((cell, index) => {
+                // todo clean this up!
+                const bgColor = (row.cells[4].value === 'bittrex' && index === 2)
+                  ? 'lightblue'
+                  : (row.cells[4].value === 'poloniex' && index === 3)
+                    ? 'lightblue'
+                    : 'papayawhip'
+
                 return (
                   <td
                     {...cell.getCellProps()}
                     style={{
                       padding: '10px',
                       border: 'solid 1px gray',
-                      background: 'papayawhip',
+                      background: bgColor,
                     }}
                   >
                     {cell.render('Cell')}

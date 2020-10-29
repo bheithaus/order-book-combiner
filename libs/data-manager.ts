@@ -49,8 +49,8 @@ interface Order {
   totalLiquidity?: number;
   bittrex?: number;
   poloniex?: number;
-  volume?: 'string';
-  [key: string]: number | undefined;
+  volume?: string;
+  [key: string]: number | string | undefined;
 }
 
 interface OrderBookInterface {

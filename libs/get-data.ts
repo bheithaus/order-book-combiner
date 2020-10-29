@@ -6,7 +6,12 @@ const CACHE_EXPIRE_TIME_SECONDS = process.env.CACHE_EXPIRE_TIME_SECONDS || 60 * 
 
 // TODO - make this idiomatic Typescript
 const PORT_REDIS = 6379
-const redisClient = redis.createClient({ port: PORT_REDIS })
+
+const redisConnectionOptions = process.env.NODE_ENV === 'production'
+  ? process.env.REDIS_URL
+  : { port: PORT_REDIS }
+
+const redisClient = redis.createClient(redisConnectionOptions)
 
 /**
  *

@@ -24,6 +24,7 @@ export default function Home() {
           fluid
           search
           selection
+          defaultValue={market}
           onChange={(evt, { name, value }: any) => { setMarket(value) }}
           options={AvailableMarkets}
         />

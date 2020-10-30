@@ -58,3 +58,7 @@
 .column {
   flex: 50%;
 }
+
+.dropdown {
+  margin-bottom: 2rem;
+}

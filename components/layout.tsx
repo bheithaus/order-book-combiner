@@ -5,8 +5,8 @@ import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import 'semantic-ui-css/semantic.min.css'
 
-const name = 'OB Mash'
-export const siteTitle = 'Next.js Sample Website'
+const name = 'Order Book Combiner'
+export const siteTitle = 'Order Book Combiner'
 
 export default function Layout({ children }: { children: React.ReactNode}) {
   return (

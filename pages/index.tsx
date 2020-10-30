@@ -20,6 +20,7 @@ export default function Home() {
         <h2 className={utilStyles.headingLg}>Order Book</h2>
 
         <Dropdown
+          className={utilStyles.dropdown}
           placeholder='Select Market'
           fluid
           search

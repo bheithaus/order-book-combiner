@@ -2,13 +2,16 @@ import { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Dropdown } from 'semantic-ui-react'
+
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import OrderBook from '../components/order-book'
 import { AvailableMarkets } from '../libs/available-markets'
 
+const InitialMarket = AvailableMarkets[0].key
+
 export default function Home() {
-  const [market, setMarket] = useState(AvailableMarkets[0].key)
+  const [market, setMarket] = useState(InitialMarket)
 
   return (
     <Layout>

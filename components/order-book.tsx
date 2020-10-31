@@ -2,7 +2,7 @@ import React from 'react'
 import { useTable } from 'react-table'
 import useSWR from 'swr'
 import uriTemplates from 'uri-templates'
-import fetch from '../libs/client-fetch'
+import fetch from '../libs/client/fetch'
 
 import utilStyles from '../styles/utils.module.css'
 import OrderBookTable from './order-book-table'

@@ -1,5 +1,6 @@
+import { StatusCodes } from 'http-status-codes'
 import { NextApiRequest, NextApiResponse } from 'next'
-import dataManager from '../../../libs/data-manager'
+import dataManager from '../../../libs/server/data-manager'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   let market : string
@@ -13,7 +14,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     market = req.query.market[0]
   }
 
-  const orderBook = await dataManager.getOrderBook(market)
+  let { orderBook, error } = await dataManager.getOrderBook(market)
 
-  res.status(200).json(orderBook)
+  if (orderBook) {
+    res.status(StatusCodes.OK).json(orderBook)
+  } else {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error)
+  }
+
 }

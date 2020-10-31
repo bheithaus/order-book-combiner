@@ -24,16 +24,19 @@ function getDataFromCacheOrRemote(url: string): Promise<any> {
         reject(error)
       } else if (!cachedData) {
         console.log('request from API:', url)
-        remoteFetchJSON(url, (freshData) => {
-          redisClient.set(url, JSON.stringify(freshData), 'EX', CACHE_EXPIRE_TIME_SECONDS)
-          resolve(freshData)
+
+        remoteFetchJSON(url, ({ data, error }) => {
+          if (error) {
+            reject(error)
+          } else {
+            redisClient.set(url, JSON.stringify(data), 'EX', CACHE_EXPIRE_TIME_SECONDS)
+            resolve(data)
+          }
         })
       } else {
         resolve(JSON.parse(cachedData))
       }
     });
-  }).catch((err : any) => {
-    console.log(err)
   });
 }
 

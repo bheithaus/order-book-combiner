@@ -12,7 +12,7 @@ npm run dev
 
 ## Overview
 - Homepage -> pages/index.tsx
-- Order Book processing -> libs/data-manager.ts
+- Order Book processing -> libs/server/data-manager.ts
 - Display code -> components/order-book-table.tsx
 
 ## Dependencies
